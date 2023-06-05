@@ -7,7 +7,7 @@ let _runStore = [];
 // let scene, camera;
 
 let texLoader = new THREE.TextureLoader();
-const model = new URL("../public/models/Stadium/Cricket.glb", import.meta.url)
+const model = new URL("../public/models/cricket_stadium.glb", import.meta.url)
   .href;
 $(document).ready(() => {
   if (ZapparThree.browserIncompatible()) {
@@ -127,11 +127,11 @@ $(document).ready(() => {
 
     // Update camera
     camera.aspect = sizes.width / sizes.height;
-    camera._updateProjectionMatrix();
+    // camera._updateProjectionMatrix();
 
     // Update renderer
     renderer.setSize(sizes.width, sizes.height);
-    renderer.setPixelRatio(10);
+    renderer.setPixelRatio(window.devicePixelRatio);
   });
 
   // Let's add some lighting, first a directional light above the model pointing down
