@@ -4,7 +4,8 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { scoreMeshData } from "./js/data.js";
 
 let _runStore = [];
-let scene, camera;
+// let scene, camera;
+
 let texLoader = new THREE.TextureLoader();
 const model = new URL("../public/models/cricket_stadium.glb", import.meta.url)
   .href;
@@ -20,8 +21,8 @@ $(document).ready(() => {
     alpha: true,
     antialias: true,
   });
-  scene = new THREE.Scene();
-  camera = new ZapparThree.Camera();
+  const scene = new THREE.Scene();
+  const camera = new ZapparThree.Camera();
   ZapparThree.permissionRequestUI().then((granted) => {
     if (granted) camera.start();
     else ZapparThree.permissionDeniedUI();
@@ -93,6 +94,11 @@ $(document).ready(() => {
       console.log("An error ocurred loading the GLTF model", err);
     }
   );
+  const onWindowResize = () => {
+    camera.aspect = canvas.offsetWidth / canvas.offsetHeight;
+    renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+    camera._updateProjectionMatrix();
+  };
 
   // Let's add some lighting, first a directional light above the model pointing down
   const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -116,6 +122,7 @@ $(document).ready(() => {
     if (!hasPlaced) {
       instantTrackerGroup.setAnchorPoseFromCameraOffset(0, 0, 0);
     }
+    // onWindowResize();
     camera.updateFrame(renderer);
     renderer.render(scene, camera);
     requestAnimationFrame(render);
@@ -125,19 +132,6 @@ $(document).ready(() => {
   render();
   window.addEventListener("resize", onWindowResize, false);
 });
-
-const onWindowResize = () => {
-  const canvas = document.querySelector("canvas");
-  const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    alpha: true,
-    antialias: true,
-  });
-
-  camera.aspect = canvas.offsetWidth / canvas.offsetHeight;
-  renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-  camera._updateProjectionMatrix();
-};
 
 export const wagonWheel = (data) => {
   _runStore.map((data) => {
