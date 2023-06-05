@@ -7,7 +7,7 @@ let _runStore = [];
 // let scene, camera;
 
 let texLoader = new THREE.TextureLoader();
-const model = new URL("../public/models/cricket_stadium.glb", import.meta.url)
+const model = new URL("../public/models/Stadium/Cricket.glb", import.meta.url)
   .href;
 $(document).ready(() => {
   if (ZapparThree.browserIncompatible()) {
@@ -75,8 +75,10 @@ $(document).ready(() => {
       //   gltf.scene.scale.set(0.1, 0.1, 0.1);
       //    gltf.scene.position.y = -1;
       //    instantTrackerGroup.add(gltf.scene);
-      mesh.scale.set(0.1, 0.1, 0.1);
-      mesh.position.set(0, -1, 0);
+      //   mesh.scale.set(0.25, 0.25, 0.25);
+      mesh.scale.set(0.25, 0.25, 0.25);
+      //   mesh.position.set(-1, -1, -1);
+      mesh.position.set(0, -2, 0);
       instantTrackerGroup.add(mesh);
     },
     (xhr) => {
@@ -129,21 +131,19 @@ $(document).ready(() => {
 
     // Update renderer
     renderer.setSize(sizes.width, sizes.height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(10);
   });
 
   // Let's add some lighting, first a directional light above the model pointing down
   const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(0, 5, 0);
-  directionalLight.lookAt(0, 0, 0);
+  directionalLight.position.set(0, 15, 0);
+  directionalLight.lookAt(0, -10, 0);
   instantTrackerGroup.add(directionalLight);
 
   // And then a little ambient light to brighten the model up a bit
-  const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+  const ambientLight = new THREE.AmbientLight(0x404040, 1);
   instantTrackerGroup.add(ambientLight);
-  camera.position.set(0, 10, 1);
-
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  camera.position.set(0, 0, 0);
 
   let hasPlaced = false;
 
