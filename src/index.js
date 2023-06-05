@@ -70,7 +70,7 @@ $(document).ready(() => {
             child.material = new THREE.MeshBasicMaterial({
               // map:texLoader.load('tex/1234.png'),
               transparent: true,
-              opacity: 1,
+              opacity: 0,
               depthTest: false,
               combine: THREE.MixOperation,
               side: THREE.DoubleSide,
@@ -133,9 +133,10 @@ const onWindowResize = () => {
     alpha: true,
     antialias: true,
   });
+
   camera.aspect = canvas.offsetWidth / canvas.offsetHeight;
   renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-  camera.updateProjectionMatrix();
+  camera._updateProjectionMatrix();
 };
 
 export const wagonWheel = (data) => {
