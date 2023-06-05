@@ -36,13 +36,6 @@ $(document).ready(() => {
     instantTracker
   );
   scene.add(instantTrackerGroup);
-  const arrowHelper = new THREE.ArrowHelper(
-    new THREE.Vector3(),
-    new THREE.Vector3(),
-    0.25,
-    0xffff00
-  );
-  instantTrackerGroup.add(arrowHelper);
 
   scoreMeshData.map((data) => {
     let material = new THREE.MeshBasicMaterial({
@@ -60,49 +53,31 @@ $(document).ready(() => {
     planeScore.visible = false;
   });
   const gltfLoader = new GLTFLoader(manager);
-  //   gltfLoader.load(
-  //     model,
-  //     (gltf) => {
-  //       let mesh = gltf.scene;
-  //       mesh.traverse((child) => {
-  //         if (child.type === "Mesh") {
-  //           if (child.name === "playerImage") {
-  //             child.material = new THREE.MeshBasicMaterial({
-  //               // map:texLoader.load('tex/1234.png'),
-  //               transparent: true,
-  //               opacity: 0,
-  //               depthTest: false,
-  //               combine: THREE.MixOperation,
-  //               side: THREE.DoubleSide,
-  //             });
-  //             child.visible = false;
-  //           }
-  //         }
-  //       });
-  //       //   gltf.scene.scale.set(0.1, 0.1, 0.1);
-  //       //    gltf.scene.position.y = -1;
-  //       //    instantTrackerGroup.add(gltf.scene);
-  //       mesh.scale.set(0.1, 0.1, 0.1);
-  //       mesh.position.set(0, -1, 0);
-  //       instantTrackerGroup.add(mesh);
-  //     },
-  //     (xhr) => {
-  //       console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-  //     },
-  //     (err) => {
-  //       console.log("An error ocurred loading the GLTF model", err);
-  //     }
-  //   );
-
   gltfLoader.load(
     model,
     (gltf) => {
-      console.log(gltf);
-      gltf.scene.scale.set(0.08, 0.08, 0.08);
-      gltf.scene.position.y = -1;
-      gltf.scene.position.z = -3;
-      // Now the model has been loaded, we can add it to our instant_tracker_group
-      instantTrackerGroup.add(gltf.scene);
+      let mesh = gltf.scene;
+      mesh.traverse((child) => {
+        if (child.type === "Mesh") {
+          if (child.name === "playerImage") {
+            child.material = new THREE.MeshBasicMaterial({
+              // map:texLoader.load('tex/1234.png'),
+              transparent: true,
+              opacity: 0,
+              depthTest: false,
+              combine: THREE.MixOperation,
+              side: THREE.DoubleSide,
+            });
+            child.visible = false;
+          }
+        }
+      });
+      //   gltf.scene.scale.set(0.1, 0.1, 0.1);
+      //    gltf.scene.position.y = -1;
+      //    instantTrackerGroup.add(gltf.scene);
+      mesh.scale.set(0.1, 0.1, 0.1);
+      mesh.position.set(0, -1, 0);
+      instantTrackerGroup.add(mesh);
     },
     (xhr) => {
       console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -111,11 +86,51 @@ $(document).ready(() => {
       console.log("An error ocurred loading the GLTF model", err);
     }
   );
-  const onWindowResize = () => {
-    camera.aspect = canvas.offsetWidth / canvas.offsetHeight;
-    renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-    camera._updateProjectionMatrix();
+
+  //   gltfLoader.load(
+  //     model,
+  //     (gltf) => {
+  //       console.log(gltf);
+  //       gltf.scene.scale.set(0.08, 0.08, 0.08);
+  //       gltf.scene.position.y = -1;
+  //       gltf.scene.position.z = -3;
+  //       // Now the model has been loaded, we can add it to our instant_tracker_group
+  //       instantTrackerGroup.add(gltf.scene);
+  //     },
+  //     (xhr) => {
+  //       console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+  //     },
+  //     (err) => {
+  //       console.log("An error ocurred loading the GLTF model", err);
+  //     }
+  //   );
+  //   const onWindowResize = () => {
+  //     camera.aspect = canvas.offsetWidth / canvas.offsetHeight;
+  //     renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+  //     camera._updateProjectionMatrix();
+  //   };
+
+  /**
+   * Sizes
+   */
+  const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight,
   };
+
+  window.addEventListener("resize", () => {
+    // Update sizes
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height;
+    camera._updateProjectionMatrix();
+
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  });
 
   // Let's add some lighting, first a directional light above the model pointing down
   const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -127,17 +142,21 @@ $(document).ready(() => {
   const ambientLight = new THREE.AmbientLight(0xffffff, 1);
   instantTrackerGroup.add(ambientLight);
   camera.position.set(0, 10, 1);
+
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
   let hasPlaced = false;
+
   const placeButton =
     document.getElementById("tap-to-place") || document.createElement("div");
   placeButton.addEventListener("click", () => {
     hasPlaced = true;
     placeButton.remove();
   });
+
   function render() {
     if (!hasPlaced) {
-      instantTrackerGroup.setAnchorPoseFromCameraOffset(0, 0, 0);
+      instantTrackerGroup.setAnchorPoseFromCameraOffset(0, 0, -5);
     }
     // onWindowResize();
     camera.updateFrame(renderer);
@@ -147,7 +166,7 @@ $(document).ready(() => {
 
   // Start things off
   render();
-  window.addEventListener("resize", onWindowResize, false);
+  //   window.addEventListener("resize", onWindowResize, false);
 });
 
 export const wagonWheel = (data) => {
