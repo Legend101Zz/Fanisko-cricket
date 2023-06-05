@@ -7,7 +7,7 @@ let _runStore = [];
 // let scene, camera;
 
 let texLoader = new THREE.TextureLoader();
-const model = new URL("../public/models/cricket_stadium.glb", import.meta.url)
+const model = new URL("../public/models/Stadium/Cricket.glb", import.meta.url)
   .href;
 $(document).ready(() => {
   if (ZapparThree.browserIncompatible()) {
@@ -60,32 +60,49 @@ $(document).ready(() => {
     planeScore.visible = false;
   });
   const gltfLoader = new GLTFLoader(manager);
+  //   gltfLoader.load(
+  //     model,
+  //     (gltf) => {
+  //       let mesh = gltf.scene;
+  //       mesh.traverse((child) => {
+  //         if (child.type === "Mesh") {
+  //           if (child.name === "playerImage") {
+  //             child.material = new THREE.MeshBasicMaterial({
+  //               // map:texLoader.load('tex/1234.png'),
+  //               transparent: true,
+  //               opacity: 0,
+  //               depthTest: false,
+  //               combine: THREE.MixOperation,
+  //               side: THREE.DoubleSide,
+  //             });
+  //             child.visible = false;
+  //           }
+  //         }
+  //       });
+  //       //   gltf.scene.scale.set(0.1, 0.1, 0.1);
+  //       //    gltf.scene.position.y = -1;
+  //       //    instantTrackerGroup.add(gltf.scene);
+  //       mesh.scale.set(0.1, 0.1, 0.1);
+  //       mesh.position.set(0, -1, 0);
+  //       instantTrackerGroup.add(mesh);
+  //     },
+  //     (xhr) => {
+  //       console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+  //     },
+  //     (err) => {
+  //       console.log("An error ocurred loading the GLTF model", err);
+  //     }
+  //   );
 
-  const start = gltfLoader.load(
+  gltfLoader.load(
     model,
     (gltf) => {
-      let mesh = gltf.scene;
-      mesh.traverse((child) => {
-        if (child.type === "Mesh") {
-          if (child.name === "playerImage") {
-            child.material = new THREE.MeshBasicMaterial({
-              // map:texLoader.load('tex/1234.png'),
-              transparent: true,
-              opacity: 0,
-              depthTest: false,
-              combine: THREE.MixOperation,
-              side: THREE.DoubleSide,
-            });
-            child.visible = false;
-          }
-        }
-      });
-      //   gltf.scene.scale.set(0.1, 0.1, 0.1);
-      //    gltf.scene.position.y = -1;
-      //    instantTrackerGroup.add(gltf.scene);
-      mesh.scale.set(0.01, 0.01, 0.01);
-      mesh.position.set(-0.05, -0.02, 0);
-      instantTrackerGroup.add(mesh);
+      console.log(gltf);
+      gltf.scene.scale.set(0.08, 0.08, 0.08);
+      gltf.scene.position.y = -1;
+      gltf.scene.position.z = -3;
+      // Now the model has been loaded, we can add it to our instant_tracker_group
+      instantTrackerGroup.add(gltf.scene);
     },
     (xhr) => {
       console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
