@@ -7,7 +7,7 @@ let _runStore = [];
 // let scene, camera;
 
 let texLoader = new THREE.TextureLoader();
-const model = new URL("../public/models/Stadium/Cricket.glb", import.meta.url)
+const model = new URL("../public/models/cricket_stadium.glb", import.meta.url)
   .href;
 $(document).ready(() => {
   if (ZapparThree.browserIncompatible()) {
