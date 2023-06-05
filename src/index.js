@@ -82,8 +82,8 @@ $(document).ready(() => {
       //   gltf.scene.scale.set(0.1, 0.1, 0.1);
       //    gltf.scene.position.y = -1;
       //    instantTrackerGroup.add(gltf.scene);
-      mesh.scale.set(0.019, 0.019, 0.019);
-      mesh.position.set(0, 0, 0);
+      mesh.scale.set(0.01, 0.01, 0.01);
+      mesh.position.set(-0.05, -0.02, 0);
       instantTrackerGroup.add(mesh);
     },
     (xhr) => {
