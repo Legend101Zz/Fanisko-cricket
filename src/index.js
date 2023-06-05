@@ -77,8 +77,8 @@ $(document).ready(() => {
       //    instantTrackerGroup.add(gltf.scene);
       //   mesh.scale.set(0.25, 0.25, 0.25);
       mesh.scale.set(0.25, 0.25, 0.25);
-      //   mesh.position.set(-1, -1, -1);
-      mesh.position.set(0, -2, 0);
+      mesh.position.set(-1, -1, -2);
+      //   mesh.position.set(0, -2, 0);
       instantTrackerGroup.add(mesh);
     },
     (xhr) => {
