@@ -121,29 +121,41 @@ $(document).ready(() => {
   };
 
   window.addEventListener("resize", () => {
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
     // Update sizes
     sizes.width = window.innerWidth;
     sizes.height = window.innerHeight;
 
-    // Update camera
-    camera.aspect = sizes.width / sizes.height;
-    // camera._updateProjectionMatrix();
+    // // Update camera
+    // camera.aspect = sizes.width / sizes.height;
+    // // camera._updateProjectionMatrix();
 
-    // Update renderer
-    renderer.setSize(sizes.width, sizes.height);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    // // Update renderer
+    // renderer.setSize(sizes.width, sizes.height);
+    // renderer.setPixelRatio(window.devicePixelRatio);
+
+    // adjust displayBuffer size to match
+
+    // you must pass false here or three.js sadly fights the browser
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2000));
+    camera._updateProjectionMatrix();
+
+    // update any render target sizes here
   });
 
   // Let's add some lighting, first a directional light above the model pointing down
   const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
   directionalLight.position.set(0, 15, 0);
-  directionalLight.lookAt(0, -10, 0);
+  directionalLight.lookAt(0, 2, 0);
   instantTrackerGroup.add(directionalLight);
 
   // And then a little ambient light to brighten the model up a bit
   const ambientLight = new THREE.AmbientLight(0x404040, 1);
   instantTrackerGroup.add(ambientLight);
-  camera.position.set(0, 0, 0);
+  camera.position.set(0, 0, -10);
 
   let hasPlaced = false;
 
@@ -158,6 +170,27 @@ $(document).ready(() => {
     if (!hasPlaced) {
       instantTrackerGroup.setAnchorPoseFromCameraOffset(0, 0, -5);
     }
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    // Update sizes
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
+
+    // // Update camera
+    // camera.aspect = sizes.width / sizes.height;
+    // // camera._updateProjectionMatrix();
+
+    // // Update renderer
+    // renderer.setSize(sizes.width, sizes.height);
+    // renderer.setPixelRatio(window.devicePixelRatio);
+
+    // adjust displayBuffer size to match
+
+    // you must pass false here or three.js sadly fights the browser
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2000));
+    camera._updateProjectionMatrix();
     // onWindowResize();
     camera.updateFrame(renderer);
     renderer.render(scene, camera);
